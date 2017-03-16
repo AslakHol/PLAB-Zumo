@@ -31,7 +31,7 @@ const float KP = 0.5;  // Proportional constant
 const float KD = 4;    // Derivative constant
 const int SV = 2500; // Set-value for position (in the middle of sensors)
 
-const int MAX_DISTANCE = 200;
+const int MAX_DISTANCE = 100;
 const int triggerPin = 6;
 const int echoPin = 3;
 NewPing sonar(triggerPin, echoPin, MAX_DISTANCE);
@@ -65,11 +65,11 @@ void sweep(int& LSpeed, int& RSpeed){
   }
   servo.write(servoAngle);
   if(servoAngle > 60){
-    RSpeed = 100;
-    LSpeed = -100;
+    RSpeed = 200;
+    LSpeed = -200;
   }else{
-    RSpeed = -100;
-    LSpeed = 100;
+    RSpeed = -200;
+    LSpeed = 200;
   }
 }
 
@@ -88,14 +88,14 @@ void loop()
   
   float distance = sonar.ping_cm();
   Serial.println(distance);
-  sweep(LSpeed, RSpeed);
-  /*
+  //sweep(LSpeed, RSpeed);
+  
   if (distance){
     kill(LSpeed, RSpeed);
   }else{
     sweep(LSpeed, RSpeed);
   }
-  */
+  
   motors.setSpeeds(LSpeed, RSpeed);
   delay(50);
 }
