@@ -17,7 +17,7 @@ int buttonX = 25;                         // worldWidth / 4
 int buttonY = 25;                         // worldHeight / 4
 int buttonSize = 50;                      // worldWidth / 2 or worldHeight / 2
 boolean buttonPressed = false;
-boolean isSentryMode = true; 
+boolean isSentryMode = false; 
 
 // Conversion from world coordinates to screen coordinates
 int bToScreenX (int x) {
@@ -55,12 +55,16 @@ void draw () {
   // black stroke around the button
   stroke (#000000);
   // Set fill color based on pressed status
-  if (isSentryMode) {
+  if (buttonPressed) {
     // Pressed -> black button
     fill (#000000);
   } else {
+    if (isSentryMode) {
+      fill (#00FF00);
+    } else {
+      fill(#FF0000);
+    }
     // Unpressed -> white button
-    fill (#FFFFFF);
   }
   
   // Draw the button
@@ -70,22 +74,18 @@ void draw () {
 
 void bUpdate () {
   boolean oldPressed = buttonPressed;
-  boolean oldMode = isSentryMode;
   // Default press status to false
   buttonPressed = false;
   // If mouse is pressed
   if (mousePressed) {
     buttonPressed = mouseInBox();
-  }
-  
-  if (oldMode = ) {
-    
+    if (oldPressed != buttonPressed) {
+      buttonPressed();
+    }
   }
   
   // If the new status is changed, notify the bridge. This minimizes communication
-  if (oldPressed != buttonPressed) {
-    btnChanged ();
-  }
+  
 }
 
 void toggleIsSentryMode() {
@@ -103,16 +103,21 @@ boolean mouseInBox() {
     return buttonPressed; 
 }
 
+void buttonPressed() {
+  isSentryMode = !isSentryMode;
+  btnChanged();
+}
+
 void btnChanged () {
   // This is called when status of button has changed. Notify bridge
   // ALLWAYS CHECK FOR NULL TO AVOID ERRORS
-  
+
   if (pBridge != null) {
     String send;
-    if (buttonPressed) {
-      send = "ON";
+    if (isSentryMode) {
+      send = "SENTRY";
     } else {
-      send = "OFF";
+      send = "SEEKER";
     }
     pBridge.send (send);
   }
