@@ -23,8 +23,8 @@ ZumoMotors motors;
 Pushbutton button(ZUMO_BUTTON);
 int lastError = 0;
 //const int servoPin = 6; 
-const int triggerPin = 0;
-const int echoPin = 1;
+const int triggerPin = 6;
+const int echoPin = 3;
 
 // This is the maximum speed the motors will be allowed to turn.
 // (400 lets the motors go at top speed; decrease to impose a speed limit)
@@ -34,6 +34,8 @@ const float KP = 0.5;  // Proportional constant
 const float KD = 4;    // Derivative constant
 const int SV = 2500; // Set-value for position (in the middle of sensors)
 
+
+int integral = 0;
 
 void setup()
 {
