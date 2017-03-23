@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-CleaningBot/src"/>
+	<classpathentry kind="src" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-CompleteExample/src"/>
+	<classpathentry kind="src" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-Debug/src"/>
+	<classpathentry kind="src" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-EmptyProject/src"/>
+	<classpathentry kind="src" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-ReceiveAnalogValue/src"/>
+	<classpathentry kind="src" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-ReceiveAndSendButtonActions/src"/>
+	<classpathentry kind="src" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-ReceiveButtonActions/src"/>
+	<classpathentry kind="src" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-SendAnalogValue/src"/>
+	<classpathentry kind="src" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-SendButtonActions/src"/>
+	<classpathentry kind="src" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-TestAnalogGUI/src"/>
+	<classpathentry kind="src" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-TestButtonGUI/src"/>
+	<classpathentry kind="lib" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-CleaningBot/jSerialComm-1.3.11.jar"/>
+	<classpathentry kind="lib" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-CompleteExample/jSerialComm-1.3.11.jar"/>
+	<classpathentry kind="lib" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-Debug/jSerialComm-1.3.11.jar"/>
+	<classpathentry kind="lib" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-EmptyProject/jSerialComm-1.3.11.jar"/>
+	<classpathentry kind="lib" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-ReceiveAnalogValue/jSerialComm-1.3.11.jar"/>
+	<classpathentry kind="lib" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-ReceiveAndSendButtonActions/jSerialComm-1.3.11.jar"/>
+	<classpathentry kind="lib" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-ReceiveButtonActions/jSerialComm-1.3.11.jar"/>
+	<classpathentry kind="lib" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-SendAnalogValue/jSerialComm-1.3.11.jar"/>
+	<classpathentry kind="lib" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-SendButtonActions/jSerialComm-1.3.11.jar"/>
+	<classpathentry kind="lib" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-TestAnalogGUI/jSerialComm-1.3.11.jar"/>
+	<classpathentry kind="lib" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-TestButtonGUI/jSerialComm-1.3.11.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="Eksempelfiler/BT_Eclipse-master/Eclipse code/PLabBT-CleaningBot/bin"/>
+</classpath>
