@@ -46,7 +46,7 @@ void setup () {
   size (240, 360);
 }
 
-// Does the drawing. Main loop of example
+// Does the drawing. Functions like loop in Arduino code
 void draw () {
   // Run update () to check if button is pressed
   bUpdate ();
@@ -54,21 +54,17 @@ void draw () {
   background (#7F7F7F);
   // black stroke around the button
   stroke (#000000);
-  // Set fill color based on pressed status
   if (buttonPressed) {
     // Pressed -> black button
     fill (#000000);
   } else {
     if (isSentryMode) {
-      fill (#00FF00);
+      fill (#00FF00); // Sentry mode == green button
     } else {
-      fill(#FF0000);
+      fill(#FF0000); // Sentry mode == red button
     }
-    // Unpressed -> white button
   }
-  
   // Draw the button
-  // Remember to translate coordinates to world coordinates
   rect (bToScreenX (buttonX), bToScreenY (buttonY), bToScreenX (buttonSize), bToScreenY (buttonSize));
 }
 
@@ -82,10 +78,7 @@ void bUpdate () {
     if (oldPressed != buttonPressed) {
       buttonPressed();
     }
-  }
-  
-  // If the new status is changed, notify the bridge. This minimizes communication
-  
+  }  
 }
 
 void toggleIsSentryMode() {
@@ -121,5 +114,4 @@ void btnChanged () {
     }
     pBridge.send (send);
   }
-  
 }

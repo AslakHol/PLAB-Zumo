@@ -5,8 +5,8 @@
 #include <PLabBTSerial.h>
 
 // Pins for bluetooth
-const int BT_RX = 10;
-const int BT_TX = 11;
+const int BT_RX = 0;
+const int BT_TX = 1;
 
 PLabBTSerial btSerial (BT_TX, BT_RX);
 
