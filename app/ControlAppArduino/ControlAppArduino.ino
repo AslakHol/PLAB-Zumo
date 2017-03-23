@@ -7,15 +7,11 @@
 const int BT_RX = 10;
 const int BT_TX = 11;
 
-const int OUT_PIN = 8; 
-
 PLabBTSerial btSerial (BT_TX, BT_RX);
 
 void setup() {
   Serial.begin (9600);
   btSerial.begin (9600);
-  pinMode(OUT_PIN, OUTPUT);
-  digitalWrite(OUT_PIN, LOW);  
 }
 
 void loop() {
@@ -43,13 +39,11 @@ void readCommand (char *text) {
 
 void engageSentry() {
   // Change parameters to engage sentry mode
-  digitalWrite(OUT_PIN, LOW); 
 }
 
 void engageSeeker() {
   // This is the default mode in the app
   // Change parameters to engage seeker mode
-  digitalWrite(OUT_PIN, HIGH); 
 }
 
 
