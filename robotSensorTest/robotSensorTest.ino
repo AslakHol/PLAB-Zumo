@@ -35,13 +35,13 @@ Drive forward and turn left or right when border is detected
 #define LED 13
  
 // this might need to be tuned for different lighting conditions, surfaces, etc.
-#define QTR_THRESHOLD  1800 // 
+#define QTR_THRESHOLD 1000 // 
   
 // these might need to be tuned for different motor types
-#define REVERSE_SPEED     200 // 0 is stopped, 400 is full speed
+#define REVERSE_SPEED     400 // 0 is stopped, 400 is full speed
 #define TURN_SPEED        200
 #define FORWARD_SPEED     200
-#define REVERSE_DURATION  200 // ms
+#define REVERSE_DURATION  400 // ms
 #define TURN_DURATION     200 // ms
 
  
@@ -173,11 +173,11 @@ void loop()
   float distanceL = sonarL.ping_cm();
   //Serial.println(String(distanceL)+"\t"+String(distanceR));
 
-  //search(LSpeed,RSpeed);
-  //motors.setSpeeds(LSpeed,RSpeed);
+  search(LSpeed,RSpeed);
+  motors.setSpeeds(LSpeed,RSpeed);
 
   sensors.read(sensor_values);
-
+  
   if (sensor_values[0] < QTR_THRESHOLD)
   {
     // if leftmost sensor detects line, reverse and turn to the right
@@ -187,7 +187,7 @@ void loop()
     delay(TURN_DURATION);
     motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
   }
-  else if (sensor_values[5] < QTR_THRESHOLD)
+  else if (sensor_values[4] < QTR_THRESHOLD)
   {
     // if rightmost sensor detects line, reverse and turn to the left
     motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED);
@@ -199,7 +199,7 @@ void loop()
   else
   {
     // otherwise, go straight
-    motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
+    //motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
   }
 
   
