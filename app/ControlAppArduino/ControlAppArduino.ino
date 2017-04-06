@@ -39,8 +39,8 @@ void setup() {
   mcp.digitalWrite(3, LOW);
   mcp.digitalWrite(4, LOW);
   mcp.digitalWrite(5, LOW);
-  mcp.digitalWrite(6, LOW);
-  mcp.digitalWrite(7, LOW);
+  mcp.digitalWrite(6, HIGH);
+  mcp.digitalWrite(7, HIGH);
 }
 
 void loop() {
@@ -56,24 +56,24 @@ void loop() {
   if (sentryMode && timeNow >= blinkTime + blinkInterval) {
     blinkTime = millis();
     if (mcp.digitalRead(0) == LOW) {
-    mcp.digitalWrite(0, HIGH);
-    mcp.digitalWrite(1, HIGH);
-    mcp.digitalWrite(2, HIGH);
-    mcp.digitalWrite(3, HIGH);
-    mcp.digitalWrite(4, HIGH);
-    mcp.digitalWrite(5, HIGH);
-    mcp.digitalWrite(6, HIGH);
-    mcp.digitalWrite(7, HIGH);
-  } else {
-    mcp.digitalWrite(0, LOW);
-    mcp.digitalWrite(1, LOW);
-    mcp.digitalWrite(2, LOW);
-    mcp.digitalWrite(3, LOW);
-    mcp.digitalWrite(4, LOW);
-    mcp.digitalWrite(5, LOW);
-    mcp.digitalWrite(6, LOW);
-    mcp.digitalWrite(7, LOW);
-  }
+      mcp.digitalWrite(0, HIGH);
+      mcp.digitalWrite(1, HIGH);
+      mcp.digitalWrite(2, HIGH);
+      mcp.digitalWrite(3, HIGH);
+      mcp.digitalWrite(4, HIGH);
+      mcp.digitalWrite(5, HIGH);
+      mcp.digitalWrite(6, HIGH);
+      mcp.digitalWrite(7, HIGH);
+     } else {
+      mcp.digitalWrite(0, LOW);
+      mcp.digitalWrite(1, LOW);
+      mcp.digitalWrite(2, LOW);
+      mcp.digitalWrite(3, LOW);
+      mcp.digitalWrite(4, LOW);
+      mcp.digitalWrite(5, LOW);
+      mcp.digitalWrite(6, LOW);
+      mcp.digitalWrite(7, LOW);
+    }
   } 
 }
 

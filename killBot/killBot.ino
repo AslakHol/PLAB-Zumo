@@ -82,6 +82,7 @@ Adafruit_MCP23008 mcp;
 const int BT_RX = 0;
 const int BT_TX = 1;
 
+boolean engage = false; 
 boolean sentryMode = false; 
 const int blinkInterval = 40; 
 int blinkTime;
@@ -91,17 +92,6 @@ PLabBTSerial btSerial (BT_TX, BT_RX);
 
 void setup()
 {
-  pinMode(echoPinL, INPUT);
-  pinMode(triggerPinL, OUTPUT);
-  pinMode(echoPinR, INPUT);
-  pinMode(triggerPinR, OUTPUT);
-  /*pinMode(servoPin, OUTPUT);
-  servo.attach(servoPin);
-  servo.write(20);*/
-  button.waitForButton();
-
-  sensors.init();
-  
   btSerial.begin (9600);
   mcp.begin(addr);
   mcp.pinMode(0, OUTPUT);
@@ -112,8 +102,6 @@ void setup()
   mcp.pinMode(5, OUTPUT);
   mcp.pinMode(6, OUTPUT);
   mcp.pinMode(7, OUTPUT);
-  blinkTime = millis();
-  timeNow = millis();
   mcp.digitalWrite(0, HIGH);
   mcp.digitalWrite(1, HIGH);
   mcp.digitalWrite(2, LOW);
@@ -122,6 +110,27 @@ void setup()
   mcp.digitalWrite(5, LOW);
   mcp.digitalWrite(6, LOW);
   mcp.digitalWrite(7, LOW);
+  
+  pinMode(echoPinL, INPUT);
+  pinMode(triggerPinL, OUTPUT);
+  pinMode(echoPinR, INPUT);
+  pinMode(triggerPinR, OUTPUT);
+  /*pinMode(servoPin, OUTPUT);
+  servo.attach(servoPin);
+  servo.write(20);*/
+  
+  /*button.waitForButton();*/
+
+  
+ 
+}
+
+void setupEngage() {
+  sensors.init();
+
+  blinkTime = millis();
+  timeNow = millis();
+  engage = true; 
 }
 
 void alignForPotentialMurder(int& LSpeed, int& RSpeed, float distance){
@@ -183,25 +192,41 @@ void destroy(int& LSpeed, int& RSpeed){
 }
 
 void readCommand (char *text) {
-  //Serial.print ("Received: ");
-  //Serial.println (text);
+  Serial.print ("Received: ");
+  Serial.println (text);
   if (0 == strcmp ("SENTRY", text)) {
     engageSentry();
   } else if (0 == strcmp("SEEKER", text)) {
     engageSeeker();
   } else {
-    //Serial.print ("Unknown command");
+    Serial.print ("Unknown command");
   }
 }
 
 void engageSentry() {
   // Change parameters to engage sentry mode
+  mcp.digitalWrite(0, HIGH);
+  mcp.digitalWrite(1, HIGH);
+  mcp.digitalWrite(2, HIGH);
+  mcp.digitalWrite(3, HIGH);
+  mcp.digitalWrite(4, HIGH);
+  mcp.digitalWrite(5, HIGH);
+  mcp.digitalWrite(6, HIGH);
+  mcp.digitalWrite(7, HIGH);
   sentryMode = true; 
 }
 
 void engageSeeker() {
   // This is the default mode in the app
   // Change parameters to engage seeker mode
+  mcp.digitalWrite(0, HIGH);
+  mcp.digitalWrite(1, HIGH);
+  mcp.digitalWrite(2, LOW);
+  mcp.digitalWrite(3, LOW);
+  mcp.digitalWrite(4, LOW);
+  mcp.digitalWrite(5, LOW);
+  mcp.digitalWrite(6, LOW);
+  mcp.digitalWrite(7, LOW);
   sentryMode = false; 
 }
 
@@ -215,70 +240,72 @@ void loop()
     
     readCommand(text);
   }
-  timeNow = millis();
-  if (timeNow >= blinkTime + blinkInterval) {
-    blinkTime = millis();
 
-    int LSpeed = 0;
-    int RSpeed = 0;
-  
-    float distanceR = sonarR.ping_cm();
-    float distanceL = sonarL.ping_cm();
-    //Serial.println(String(distanceL)+"\t"+String(distanceR));
-  
-    search(LSpeed,RSpeed);
-    motors.setSpeeds(LSpeed,RSpeed);
-  
-    sensors.read(sensor_values);
-    
-    if (sensor_values[0] < QTR_THRESHOLD)
-    {
-      // if leftmost sensor detects line, reverse and turn to the right
-      motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED);
-      delay(REVERSE_DURATION);
-      motors.setSpeeds(TURN_SPEED, -TURN_SPEED);
-      delay(TURN_DURATION);
-      motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
-    }
-    else if (sensor_values[4] < QTR_THRESHOLD)
-    {
-      // if rightmost sensor detects line, reverse and turn to the left
-      motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED);
-      delay(REVERSE_DURATION);
-      motors.setSpeeds(-TURN_SPEED, TURN_SPEED);
-      delay(TURN_DURATION);
-      motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
-    }
-    else
-    {
-      // otherwise, go straight
-      //motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
-    }
-  
-    if(sentryMode) {
-      if (mcp.digitalRead(0) == LOW) {
-      mcp.digitalWrite(0, HIGH);
-      mcp.digitalWrite(1, HIGH);
-      mcp.digitalWrite(2, HIGH);
-      mcp.digitalWrite(3, HIGH);
-      mcp.digitalWrite(4, HIGH);
-      mcp.digitalWrite(5, HIGH);
-      mcp.digitalWrite(6, HIGH);
-      mcp.digitalWrite(7, HIGH);
-     } else {
-      mcp.digitalWrite(0, LOW);
-      mcp.digitalWrite(1, LOW);
-      mcp.digitalWrite(2, LOW);
-      mcp.digitalWrite(3, LOW);
-      mcp.digitalWrite(4, LOW);
-      mcp.digitalWrite(5, LOW);
-      mcp.digitalWrite(6, LOW);
-      mcp.digitalWrite(7, LOW);
-    }
-    }
-    
+  if (button.isPressed() && engage == false) {
+    setupEngage(); 
   }
 
+  if (engage) {
+    timeNow = millis();
+    if (timeNow >= blinkTime + blinkInterval) {
+      blinkTime = millis();
   
-  delay(40);
+      int LSpeed = 0;
+      int RSpeed = 0;
+    
+      float distanceR = sonarR.ping_cm();
+      float distanceL = sonarL.ping_cm();
+      //Serial.println(String(distanceL)+"\t"+String(distanceR));
+    
+      search(LSpeed,RSpeed);
+      motors.setSpeeds(LSpeed,RSpeed);
+    
+      sensors.read(sensor_values);
+      
+      if (sensor_values[0] < QTR_THRESHOLD)
+      {
+        // if leftmost sensor detects line, reverse and turn to the right
+        motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED);
+        delay(REVERSE_DURATION);
+        motors.setSpeeds(TURN_SPEED, -TURN_SPEED);
+        delay(TURN_DURATION);
+        motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
+      }
+      else if (sensor_values[4] < QTR_THRESHOLD)
+      {
+        // if rightmost sensor detects line, reverse and turn to the left
+        motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED);
+        delay(REVERSE_DURATION);
+        motors.setSpeeds(-TURN_SPEED, TURN_SPEED);
+        delay(TURN_DURATION);
+        motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
+      }
+      else
+      {
+        // otherwise, go straight
+        //motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
+      }
+    
+      if(sentryMode) {
+        if (mcp.digitalRead(2) == LOW) {
+          mcp.digitalWrite(2, HIGH);
+          mcp.digitalWrite(3, HIGH);
+          mcp.digitalWrite(4, HIGH);
+          mcp.digitalWrite(5, HIGH);
+          mcp.digitalWrite(6, HIGH);
+          mcp.digitalWrite(7, HIGH);
+         } else {
+          mcp.digitalWrite(2, LOW);
+          mcp.digitalWrite(3, LOW);
+          mcp.digitalWrite(4, LOW);
+          mcp.digitalWrite(5, LOW);
+          mcp.digitalWrite(6, LOW);
+          mcp.digitalWrite(7, LOW);
+        }
+      } 
+    }
+  }
+
+ 
+  
 }
